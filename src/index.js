@@ -1,4 +1,5 @@
 const express = require('express')
+const db = require('./models')
 
 const authController = require('./controllers/auth')
 
@@ -10,6 +11,8 @@ app.get('/', (req, res) => {
   return res.json('Api tá de boa...')
 })
 
-app.listen(3001, () => {
-  console.log('tô ouvindo na porta 3001')
+db.sequelize.sync().then(() => {
+  app.listen(3001, () => {
+    console.log('tô ouvindo na porta 3001')
+  })
 })
