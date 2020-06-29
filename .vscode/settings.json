@@ -1,0 +1,17 @@
+{
+  "sqltools.connections": [
+    {
+      "database": "links",
+      "driver": "MySQL",
+      "mysqlOptions": {
+        "authProtocol": "default"
+      },
+      "name": "Mysql_local",
+      "password": "Root*123456",
+      "port": 3306,
+      "previewLimit": 50,
+      "server": "localhost",
+      "username": "root"
+    }
+  ]
+}
