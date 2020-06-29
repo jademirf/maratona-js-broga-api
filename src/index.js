@@ -1,9 +1,13 @@
 const express = require('express')
 
+const authController = require('./controllers/auth')
+
 const app = express()
 
+app.use('/auth', authController) // rotas de cadastro e login
+
 app.get('/', (req, res) => {
-  retunr res.json('Api tá de boa...')
+  return res.json('Api tá de boa...')
 })
 
 app.listen(3001, () => {
