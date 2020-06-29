@@ -5,6 +5,9 @@ const authController = require('./controllers/auth')
 
 const app = express()
 
+app.use(express.json())
+app.use(express.urlencoded())
+
 app.use('/auth', authController) // rotas de cadastro e login
 
 app.get('/', (req, res) => {
