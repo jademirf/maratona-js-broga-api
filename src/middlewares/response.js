@@ -27,7 +27,7 @@ const jsonBadRequest = function(data, message, metadata){
 
 const jsonUnauthorized = function(data, message, metadata){
   const status = STATUS_CODE_UNAUTHORIZED
-  message = message ? message : 'Access unauthorized'
+  message = message ? message : 'Access unauthorized.'
   metadata = metadata ? metadata : {}
 
   this.status(status)
@@ -47,7 +47,7 @@ const jsonNotFound = function(data, message, metadata){
 
 const jsonSeverError = function(data, message, metadata){
   const status = STATUS_CODE_SERVER_ERROR
-  message = message ? message : 'Server Error!'
+  message = message ? message : 'Server Error.'
   metadata = metadata ? metadata : {}
 
   this.status(status)
