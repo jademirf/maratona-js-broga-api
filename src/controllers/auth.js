@@ -1,15 +1,31 @@
 const express = require('express')
 const bcrypt = require('bcrypt')
 const { Account } = require('../models')
-const { accountSignUp } = require('../validators/account')
-const { getMessage } = require('../helpers/validator')
+const { accountSignUp, accountSignIn } = require('../validators/account')
+const { getMessage } = require('../helpers/messages')
+const { generateJwt, generateRefreshJwt } = require('../helpers/jwt')
 
 const router = express.Router()
 
 const saltRounds = 10
 
-router.post('/sign-in', (req, res) => {
-  return res.jsonOK(null)
+router.post('/sign-in', accountSignIn, async (req, res) => {
+  const { email, password } = req.body
+  const account = await Account.findOne({ where: { email } })
+  if (!account) return res.jsonBadRequest(null, getMessage('account.signin.invalid'))
+
+  // validate password
+  const passMatch = account ? bcrypt.compareSync(password, account.password) : null
+  if(!passMatch) return res.jsonBadRequest(null, getMessage('account.signin.invalid'))
+
+  const payload = {
+    id: account.id
+  }
+
+  const token = generateJwt(payload)
+  const refreshToken = generateRefreshJwt(payload)
+
+  return res.jsonOK(account, getMessage('account.signin.success'), { token, refreshToken})
 })
 
 router.post('/sign-up', accountSignUp, async (req, res) => {
@@ -27,7 +43,14 @@ router.post('/sign-up', accountSignUp, async (req, res) => {
   // }
   const result = await Account.create(user)
 
-  return res.jsonOK(result, getMessage('account.signup.success'))
+  const payload = {
+    id: result.id
+  }
+  
+  const token = generateJwt(payload)
+  const refreshToken = generateRefreshJwt(payload)
+
+  return res.jsonOK(result, getMessage('account.signup.success'), { token, refreshToken})
 })
 
 module.exports = router
