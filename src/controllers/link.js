@@ -5,21 +5,21 @@ const express = require('express');
 const router = express.Router()
 
 router.get('/', async (req, res) => {
-  const accountId = 1 // será req.id após a implementação do middleware de tokens
+  const { accountId } = req
   const links = await Link.findAll({ where: { accountId }})
   return res.jsonOK(links)
 })
 
 router.get('/:id', async (req, res) => {
-  const accountId = 1 // será req.id após a implementação do middleware de tokens
+  const { accountId } = req
   const { id } = req.params
   const link = await Link.findOne({ where: { id, accountId } })
   return res.jsonOK(link)
 })
 
 router.post('/', async (req, res) => {
-  const accountId = 2 // será req.id após a implementação do middleware de tokens
-  const { label, url, isSocial } = req.body
+  const { accountId, body } = req
+  const { label, url, isSocial } = body
 
   const image = "https://google.com/image.jpg" // imagem temporária
 
@@ -29,9 +29,8 @@ router.post('/', async (req, res) => {
 })
 
 router.put('/:id', async (req, res) => {
-  const accountId = 1 // será req.id após a implementação do middleware de tokens
   const id = req.params.id
-  const { body } = req
+  const { body, accountId } = req
 
   const fields = ['label', 'url', 'isSocial']
 
@@ -51,7 +50,7 @@ router.put('/:id', async (req, res) => {
 })
 
 router.delete('/:id', async (req, res) => {
-  const accountId = 1 // será req.id após a implementação do middleware de tokens
+  const { accountId } = req
   const id = req.params.id
 
   const link = await Link.findOne({ where: { id, accountId } })
