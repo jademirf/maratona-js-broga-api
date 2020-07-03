@@ -21,11 +21,15 @@ router.post('/sign-in', accountSignIn, async (req, res) => {
   const payload = {
     id: account.id
   }
+  const payloadRefresh = {
+    id: account.id,
+    version: account.jwtVersion
+  }
 
   const token = generateJwt(payload)
   const refreshToken = generateRefreshJwt(payload)
 
-  return res.jsonOK(account, getMessage('account.signin.success'), { token, refreshToken})
+  return res.jsonOK(account, getMessage('account.signin.success'), { token, payloadRefresh})
 })
 
 router.post('/sign-up', accountSignUp, async (req, res) => {
@@ -46,9 +50,14 @@ router.post('/sign-up', accountSignUp, async (req, res) => {
   const payload = {
     id: result.id
   }
+  const payloadRefresh = {
+    id: account.id,
+    version: result.jwtVersion
+  }
+
   
   const token = generateJwt(payload)
-  const refreshToken = generateRefreshJwt(payload)
+  const refreshToken = generateRefreshJwt(payloadRefresh)
 
   return res.jsonOK(result, getMessage('account.signup.success'), { token, refreshToken})
 })

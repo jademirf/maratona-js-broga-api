@@ -1,8 +1,7 @@
 const { verifyJwt } = require('../helpers/jwt')
 
 const checkJwt = (req, res, next) => {
-  const { url: path } = require
-
+  const { url: path } = req
   const excludedPaths = [
     '/auth/sign-in',
     '/auth/sign-up'
