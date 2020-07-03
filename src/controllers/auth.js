@@ -27,9 +27,9 @@ router.post('/sign-in', accountSignIn, async (req, res) => {
   }
 
   const token = generateJwt(payload)
-  const refreshToken = generateRefreshJwt(payload)
+  const refreshToken = generateRefreshJwt(payloadRefresh)
 
-  return res.jsonOK(account, getMessage('account.signin.success'), { token, payloadRefresh})
+  return res.jsonOK(account, getMessage('account.signin.success'), { token, refreshToken})
 })
 
 router.post('/sign-up', accountSignUp, async (req, res) => {
