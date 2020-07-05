@@ -47,7 +47,7 @@ router.post('/sign-up', accountSignUp, async (req, res) => {
     id: result.id
   }
   const payloadRefresh = {
-    id: account.id,
+    id: result.id,
     version: result.jwtVersion
   }
 
